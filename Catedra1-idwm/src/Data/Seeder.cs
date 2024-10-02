@@ -3,11 +3,10 @@ using Catedra1_idwm.src.Data;    // Reemplaza con tu espacio de nombres
 
 namespace Catedra1_idwm.src.Data;
 
-public static class DataSeeder
+public static class Seeder
 {
-     public static void Seed(DataContext context)
+     public static async Task Seed(DataContext context)
     {
-       
         // Verifica si la tabla de usuarios ya contiene datos
         if (context.Users.Any())
         {
