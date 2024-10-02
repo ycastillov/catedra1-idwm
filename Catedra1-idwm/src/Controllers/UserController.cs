@@ -1,3 +1,5 @@
+using Catedra1_idwm.src.Interfaces;
+using Catedra1_idwm.src.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catedra1_idwm.src.Controllers
@@ -6,6 +8,18 @@ namespace Catedra1_idwm.src.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        //public readonly 
+        public readonly IUserRepository _userRepository;
+
+        public UserController(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser()
+        {
+            return Ok();
+        }
+        
     }
 }

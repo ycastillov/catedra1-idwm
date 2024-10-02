@@ -8,7 +8,7 @@ using Catedra1_idwm.src.Models;
 
 namespace Catedra1_idwm.src.Repositories
 {
-    public class UserRepository : IUserInterface
+    public class UserRepository : IUserRepository
     {
         public readonly DataContext _dataContext;
 
@@ -17,11 +17,11 @@ namespace Catedra1_idwm.src.Repositories
             _dataContext = dataContext;
         }
         
-        /*
-        public Task<User> PostUser(User user)
+        
+        public Task<User> Post(User user)
         {
             throw new NotImplementedException();
         }
-        */
+        
     }
 }

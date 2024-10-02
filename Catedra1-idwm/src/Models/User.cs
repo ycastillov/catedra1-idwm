@@ -4,7 +4,7 @@ namespace Catedra1_idwm.src.Models
 {
     public class User
     {
-        [Key]
+        public int Id { get; set; }
         public string Rut { get; set; } = string.Empty;
 
         [StringLength(100, MinimumLength = 3, ErrorMessage = "El nombre debe tener entre 3 y 100 caracteres")]
@@ -13,6 +13,6 @@ namespace Catedra1_idwm.src.Models
 
         [RegularExpression(@"masculino|femenino|otro|prefiero no")]
         public string Gender { get; set; } = string.Empty;
-        public string BirthDate { get; set; } = string.Empty;
+        public DateTime Birthdate { get; set; }
     }
 }
