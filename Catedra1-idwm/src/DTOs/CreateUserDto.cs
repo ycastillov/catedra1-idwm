@@ -9,6 +9,8 @@ namespace Catedra1_idwm.src.DTOs
 
         [StringLength(100, MinimumLength = 3, ErrorMessage = "El nombre debe tener entre 3 y 100 caracteres")]
         public required string Name { get; set; } = string.Empty;
+
+        [EmailAddress]
         public required string Email { get; set; } = string.Empty;
 
         [RegularExpression(@"masculino|femenino|otro|prefiero no", ErrorMessage = "Género no valido")]

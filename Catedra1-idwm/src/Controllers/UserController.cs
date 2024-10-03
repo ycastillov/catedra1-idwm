@@ -20,6 +20,10 @@ namespace Catedra1_idwm.src.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDto createUserDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var exists = await _userRepository.ExistsByRut(createUserDto.Rut);
             if (exists)
             {
@@ -29,6 +33,8 @@ namespace Catedra1_idwm.src.Controllers
             await _userRepository.Post(userModel);
             return CreatedAtAction(nameof(CreateUser), new { code = userModel.Rut }, userModel);
         }
+
+        
         
     }
 }

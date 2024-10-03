@@ -8,6 +8,8 @@ namespace Catedra1_idwm.src.Interfaces
 {
     public interface IUserRepository
     {
+        Task<bool> ExistsByRut(string rut);
         Task<User> Post(User user);
+        //Task<User?> GetAll();
     }
 }
