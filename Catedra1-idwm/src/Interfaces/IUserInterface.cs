@@ -10,6 +10,7 @@ namespace Catedra1_idwm.src.Interfaces
     {
         Task<bool> ExistsByRut(string rut);
         Task<User> Post(User user);
-        //Task<User?> GetAll();
+        Task<List<User>> GetAll(string? sort, string? gender);
+        Task<bool> UpdateUserAsync(int id, User updatedUser);
     }
 }

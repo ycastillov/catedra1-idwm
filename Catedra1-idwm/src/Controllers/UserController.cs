@@ -1,6 +1,7 @@
 using Catedra1_idwm.src.DTOs;
 using Catedra1_idwm.src.Interfaces;
 using Catedra1_idwm.src.Mappers;
+using Catedra1_idwm.src.Models;
 using Catedra1_idwm.src.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,7 +35,31 @@ namespace Catedra1_idwm.src.Controllers
             return CreatedAtAction(nameof(CreateUser), new { code = userModel.Rut }, userModel);
         }
 
-        
-        
+        [HttpGet]
+        public async Task<IActionResult> GetUsers([FromQuery] string? gender = null, [FromQuery] string? sort = null)
+        {
+            List<User> users = await _userRepository.GetAll(gender, sort);
+            return Ok(users);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] User updatedUser)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Llamar al método de actualización del repositorio
+            var result = await _userRepository.UpdateUserAsync(id, updatedUser);
+
+            if (!result)
+            {
+                return NotFound(new { message = "Usuario no encontrado" });
+            }
+
+            return Ok(new { message = "Usuario actualizado exitosamente" });
+        }
+            
     }
 }

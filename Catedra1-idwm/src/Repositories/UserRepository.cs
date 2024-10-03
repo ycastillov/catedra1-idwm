@@ -29,6 +29,55 @@ namespace Catedra1_idwm.src.Repositories
             await _dataContext.SaveChangesAsync();
             return user;
         }
-        
+
+        public async Task<List<User>> GetAll(string? sort, string? gender)
+        {
+            var users = _dataContext.Users.AsQueryable();
+
+            // Filtrar por género, si se proporciona
+            if (!string.IsNullOrEmpty(gender))
+            {
+                users = users.Where(u => u.Gender.ToLower() == gender.ToLower());
+            }
+
+            // Ordenar por nombre, si se proporciona el parámetro de ordenación
+            if (!string.IsNullOrEmpty(sort))
+            {
+                if (sort.ToLower() == "asc")
+                {
+                    users = users.OrderBy(u => u.Name);
+                }
+                else if (sort.ToLower() == "desc")
+                {
+                    users = users.OrderByDescending(u => u.Name);
+                }
+            }
+
+            return await users.ToListAsync();
+        }
+
+        public async Task<bool> UpdateUserAsync(int id, User updatedUser)
+        {
+            // Buscar el usuario existente por su ID
+            var existingUser = await _dataContext.Users.FindAsync(id);
+
+            // Verificar si el usuario existe
+            if (existingUser == null)
+            {
+                return false;
+            }
+
+            // Actualizar los campos del usuario
+            existingUser.Rut = updatedUser.Rut;
+            existingUser.Name = updatedUser.Name;
+            existingUser.Email = updatedUser.Email;
+            existingUser.Gender = updatedUser.Gender;
+            existingUser.Birthdate = updatedUser.Birthdate;
+
+            // Guardar los cambios en la base de datos
+            await _dataContext.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
