@@ -34,25 +34,12 @@ namespace Catedra1_idwm.src.Repositories
         public async Task<List<User>> GetAll(string? sort, string? gender)
         {
             var users = _dataContext.Users.AsQueryable();
-
+            var validGenders = new List<string> {"masculino", "femenino", "otro", "prefiero no decirlo"};
             // Filtrar por género, si se proporciona
-            if (!string.IsNullOrEmpty(gender))
-            {
-                users = users.Where(u => u.Gender.ToLower() == gender.ToLower());
-            }
+           
 
             // Ordenar por nombre, si se proporciona el parámetro de ordenación
-            if (!string.IsNullOrEmpty(sort))
-            {
-                if (sort.ToLower() == "asc")
-                {
-                    users = users.OrderBy(u => u.Name);
-                }
-                else if (sort.ToLower() == "desc")
-                {
-                    users = users.OrderByDescending(u => u.Name);
-                }
-            }
+          
 
             return await users.ToListAsync();
         }
@@ -72,7 +59,7 @@ namespace Catedra1_idwm.src.Repositories
             existingUser.Rut = updateUserDto.Rut;
             existingUser.Name = updateUserDto.Name;
             existingUser.Email = updateUserDto.Email;
-            existingUser.Gender = updateUserDto.Gender;
+            //existingUser.Gender = updateUserDto.Gender;
             existingUser.Birthdate = updateUserDto.Birthdate;
 
             // Guardar los cambios en la base de datos

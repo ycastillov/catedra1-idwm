@@ -36,9 +36,18 @@ namespace Catedra1_idwm.src.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers([FromQuery] string? gender = null, [FromQuery] string? sort = null)
+        public async Task<IActionResult> GetUsers([FromQuery] string? gender, [FromQuery] string? sort)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            } 
+
             List<User> users = await _userRepository.GetAll(gender, sort);
+            if (users == null)
+            {
+                return BadRequest("Filtros inválidos");
+            }
             return Ok(users);
         }
 
