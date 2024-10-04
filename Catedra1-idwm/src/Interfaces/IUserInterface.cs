@@ -13,6 +13,6 @@ namespace Catedra1_idwm.src.Interfaces
         Task<User> Post(User user);
         Task<List<User>> GetAll(string? sort, string? gender);
         Task<User?> Put(int id, UpdateUserDto updateUserDto);
-        //Task<User?> Delete(int id);
+        Task<User?> Delete(int id);
     }
 }

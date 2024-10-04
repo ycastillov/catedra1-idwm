@@ -80,19 +80,19 @@ namespace Catedra1_idwm.src.Repositories
 
             return existingUser;
         }
-        /*
+        
         public async Task<User?> Delete(int id)
         {
-            var userModel = _dataContext.Users.FirstOrDefaultAsync(p => p.Id == id);
+            var userModel = await _dataContext.Users.FirstOrDefaultAsync(p => p.Id == id);
             if (userModel == null)
             {
                 return null;
             }
-
-            await _dataContext.Users.Remove(userModel);
+        
+            _dataContext.Users.Remove(userModel);
             await _dataContext.SaveChangesAsync();
             return userModel;
         }
-        */
+        
     }
 }

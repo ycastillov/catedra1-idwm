@@ -60,6 +60,17 @@ namespace Catedra1_idwm.src.Controllers
 
             return Ok(new { message = "Usuario actualizado exitosamente" });
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser([FromRoute] int id)
+        {
+            var userDeleted = await _userRepository.Delete(id);
+            if (userDeleted == null)
+            {
+                return NotFound("Usuario no encontrado");
+            }
+            return Ok("Usuario eliminado exitosamente");
+        }
             
     }
 }
