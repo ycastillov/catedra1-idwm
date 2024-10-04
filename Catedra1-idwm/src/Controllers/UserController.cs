@@ -43,7 +43,7 @@ namespace Catedra1_idwm.src.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] User updatedUser)
+        public async Task<IActionResult> UpdateUser([FromRoute]int id, [FromBody] UpdateUserDto updateUserDto)
         {
             if (!ModelState.IsValid)
             {
@@ -51,9 +51,9 @@ namespace Catedra1_idwm.src.Controllers
             }
 
             // Llamar al método de actualización del repositorio
-            var result = await _userRepository.UpdateUserAsync(id, updatedUser);
+            var result = await _userRepository.Put(id, updateUserDto);
 
-            if (!result)
+            if (result == null)
             {
                 return NotFound(new { message = "Usuario no encontrado" });
             }

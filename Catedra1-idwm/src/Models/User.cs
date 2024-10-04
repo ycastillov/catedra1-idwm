@@ -11,7 +11,7 @@ namespace Catedra1_idwm.src.Models
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
 
-        [RegularExpression(@"masculino|femenino|otro|prefiero no")]
+        [RegularExpression(@"masculino|femenino|otro|prefiero no decirlo")]
         public string Gender { get; set; } = string.Empty;
         public DateTime Birthdate { get; set; }
     }

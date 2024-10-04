@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Catedra1_idwm.src.Data;
+using Catedra1_idwm.src.DTOs;
 using Catedra1_idwm.src.Interfaces;
 using Catedra1_idwm.src.Models;
 using Microsoft.EntityFrameworkCore;
@@ -56,7 +57,7 @@ namespace Catedra1_idwm.src.Repositories
             return await users.ToListAsync();
         }
 
-        public async Task<bool> UpdateUserAsync(int id, User updatedUser)
+        public async Task<User?> Put(int id, UpdateUserDto updateUserDto)
         {
             // Buscar el usuario existente por su ID
             var existingUser = await _dataContext.Users.FindAsync(id);
@@ -64,20 +65,34 @@ namespace Catedra1_idwm.src.Repositories
             // Verificar si el usuario existe
             if (existingUser == null)
             {
-                return false;
+                return null;
             }
 
             // Actualizar los campos del usuario
-            existingUser.Rut = updatedUser.Rut;
-            existingUser.Name = updatedUser.Name;
-            existingUser.Email = updatedUser.Email;
-            existingUser.Gender = updatedUser.Gender;
-            existingUser.Birthdate = updatedUser.Birthdate;
+            existingUser.Rut = updateUserDto.Rut;
+            existingUser.Name = updateUserDto.Name;
+            existingUser.Email = updateUserDto.Email;
+            existingUser.Gender = updateUserDto.Gender;
+            existingUser.Birthdate = updateUserDto.Birthdate;
 
             // Guardar los cambios en la base de datos
             await _dataContext.SaveChangesAsync();
 
-            return true;
+            return existingUser;
         }
+        /*
+        public async Task<User?> Delete(int id)
+        {
+            var userModel = _dataContext.Users.FirstOrDefaultAsync(p => p.Id == id);
+            if (userModel == null)
+            {
+                return null;
+            }
+
+            await _dataContext.Users.Remove(userModel);
+            await _dataContext.SaveChangesAsync();
+            return userModel;
+        }
+        */
     }
 }
