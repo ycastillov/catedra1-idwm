@@ -16,7 +16,7 @@ namespace Catedra1_idwm.src.Mappers
                 Rut = user.Rut,
                 Name = user.Name,
                 Email = user.Email,
-                Gender = user.Gender,
+                GenderId = user.GenderId,
                 Birthdate = user.Birthdate
             };
         }
@@ -28,7 +28,7 @@ namespace Catedra1_idwm.src.Mappers
                 Rut = createUserDto.Rut,
                 Name = createUserDto.Name,
                 Email = createUserDto.Email,
-                Gender = createUserDto.Gender,
+                GenderId = createUserDto.GenderId,
                 Birthdate = createUserDto.Birthdate
             };
         }   

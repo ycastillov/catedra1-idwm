@@ -33,14 +33,36 @@ namespace Catedra1_idwm.src.Repositories
 
         public async Task<List<User>> GetAll(string? sort, string? gender)
         {
-            var users = _dataContext.Users.AsQueryable();
-            var validGenders = new List<string> {"masculino", "femenino", "otro", "prefiero no decirlo"};
-            // Filtrar por género, si se proporciona
-           
-
-            // Ordenar por nombre, si se proporciona el parámetro de ordenación
-          
-
+            var users = _dataContext.Users.Include(u => u.Gender).AsQueryable();
+            
+            if (!string.IsNullOrEmpty(gender))
+            {
+                var validGenders = new List<string> {"masculino", "femenino", "otro", "prefiero no decirlo"};
+                if (validGenders.Contains(gender.ToLower()))
+                {
+                    users = users.Where(u => u.Gender.GenderName.ToLower() == gender.ToLower());
+                }
+                else 
+                {
+                    return new List<User>();
+                }
+            }
+            else if (!string.IsNullOrEmpty(sort))
+            {
+                var validSorts = new List<string> {"asc", "desc"};
+                if (validSorts.Contains(sort) && sort.ToLower() == "asc")
+                {
+                    users = users.OrderBy(u => u.Name);
+                }
+                else if (validSorts.Contains(sort) && sort.ToLower() == "desc")
+                {
+                    users = users.OrderByDescending(u => u.Name);
+                }
+                else 
+                {
+                    return new List<User>();
+                }
+            }
             return await users.ToListAsync();
         }
 
@@ -59,7 +81,7 @@ namespace Catedra1_idwm.src.Repositories
             existingUser.Rut = updateUserDto.Rut;
             existingUser.Name = updateUserDto.Name;
             existingUser.Email = updateUserDto.Email;
-            //existingUser.Gender = updateUserDto.Gender;
+            existingUser.GenderId = updateUserDto.GenderId;
             existingUser.Birthdate = updateUserDto.Birthdate;
 
             // Guardar los cambios en la base de datos

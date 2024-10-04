@@ -13,8 +13,8 @@ namespace Catedra1_idwm.src.DTOs
         [EmailAddress]
         public required string Email { get; set; } = string.Empty;
 
-        [RegularExpression(@"masculino|femenino|otro|prefiero no decirlo")]
-        public required string Gender { get; set; } = string.Empty;
+        [RegularExpression(@"1|2|3|4")]
+        public required int GenderId { get; set; }
 
         [DataType(DataType.Date)]
         [BirthdateValidation(ErrorMessage = "La fecha de nacimiento debe ser menor a la fecha actual")]
