@@ -38,17 +38,24 @@ namespace Catedra1_idwm.src.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers([FromQuery] string? gender, [FromQuery] string? sort)
         {
-            if (!ModelState.IsValid)
+            var validGenders = new List<string> {"masculino", "femenino", "otro", "prefiero no decirlo"};
+            var validSorts = new List<string> {"asc", "desc"};
+            if (!string.IsNullOrEmpty(gender) && !validGenders.Contains(gender))
             {
-                return BadRequest(ModelState);
-            } 
-
-            List<User> users = await _userRepository.GetAll(gender, sort);
+                return BadRequest("Indique uno de los siguientes géneros: masculino, femenino, otro, prefiero no decirlo");
+            }
+            else if (!string.IsNullOrEmpty(sort) && !validSorts.Contains(sort))
+            {
+                return BadRequest("Los posibles filtros de ordenación son: asc, desc");
+            }
+            
+            var users = await _userRepository.GetAll(gender, sort);
+            var usersDto = users.Select(u => u.ToUserDto());
             if (users == null)
             {
                 return BadRequest("Filtros inválidos");
             }
-            return Ok(users);
+            return Ok(usersDto);
         }
 
         [HttpPut("{id}")]

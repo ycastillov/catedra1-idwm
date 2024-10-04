@@ -33,37 +33,25 @@ namespace Catedra1_idwm.src.Repositories
 
         public async Task<List<User>> GetAll(string? sort, string? gender)
         {
-            var users = _dataContext.Users.Include(u => u.Gender).AsQueryable();
+            var query = _dataContext.Users.Include(u => u.Gender).AsQueryable();
             
             if (!string.IsNullOrEmpty(gender))
             {
-                var validGenders = new List<string> {"masculino", "femenino", "otro", "prefiero no decirlo"};
-                if (validGenders.Contains(gender.ToLower()))
-                {
-                    users = users.Where(u => u.Gender.GenderName.ToLower() == gender.ToLower());
-                }
-                else 
-                {
-                    return new List<User>();
-                }
+                query = query.Where(u => u.Gender.GenderName.ToLower() == gender.ToLower());
             }
-            else if (!string.IsNullOrEmpty(sort))
+
+            if (!string.IsNullOrEmpty(sort))
             {
-                var validSorts = new List<string> {"asc", "desc"};
-                if (validSorts.Contains(sort) && sort.ToLower() == "asc")
+                if (sort.ToLower() == "asc")
                 {
-                    users = users.OrderBy(u => u.Name);
-                }
-                else if (validSorts.Contains(sort) && sort.ToLower() == "desc")
-                {
-                    users = users.OrderByDescending(u => u.Name);
+                    query = query.OrderBy(u => u.Name);
                 }
                 else 
                 {
-                    return new List<User>();
+                    query = query.OrderByDescending(u => u.Name);
                 }
             }
-            return await users.ToListAsync();
+            return await query.ToListAsync();
         }
 
         public async Task<User?> Put(int id, UpdateUserDto updateUserDto)
